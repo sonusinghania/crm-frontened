@@ -1,0 +1,236 @@
+/* 
+.requested-data-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+  font-family: Arial, sans-serif;
+  color: #333;
+}
+
+
+.requested-data-title {
+  font-size: 2rem;
+  font-weight: bold;
+  margin-bottom: 10px;
+  text-align: center;
+  color: #4caf50; 
+}
+
+
+.requested-data-description {
+  font-size: 1rem;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.filter-container {
+  margin-bottom: 20px;
+  text-align: right;
+}
+
+.filter-label {
+  font-size: 1rem;
+  margin-right: 10px;
+}
+
+.filter-select {
+  padding: 5px 10px;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+
+.table-container {
+  overflow-x: auto; 
+}
+
+
+.requested-data-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 0 auto;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.requested-data-table th,
+.requested-data-table td {
+  padding: 15px;
+  text-align: left;
+  border: 1px solid #ddd;
+}
+
+.requested-data-table th {
+  background-color: #4caf50;
+  color: white;
+  font-weight: bold;
+}
+
+.requested-data-table tbody tr:hover {
+  background-color: #f1f1f1; 
+}
+
+.odd-row {
+  background-color: #f9f9f9;
+}
+
+.even-row {
+  background-color: #fff;
+} */
+.requested-data-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+h1 {
+  font-size: 2rem;
+  color: #333;
+  margin-bottom: 20px;
+}
+
+.card-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: center;
+}
+
+.card {
+  background: linear-gradient(135deg, #6b84ff, #aeff31); /* Gradient red */
+  color: #fff;
+  border-radius: 10px;
+  width: 22%;
+  padding: 20px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+  text-align: left;
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+}
+
+.card h3 {
+  font-size: 1.5rem;
+  margin: 0 0 10px;
+  color: #fff;
+}
+
+.card p {
+  margin: 5px 0;
+  font-size: 1rem;
+}
+
+.card-actions {
+  margin-top: 15px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+select,
+input {
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+  font-size: 1rem;
+}
+
+select {
+  /* background-color: #ffe1e1; */
+  color: #333;
+}
+
+input {
+  background-color: #fff;
+  color: #333;
+}
+
+.save-button {
+  padding: 10px 15px;
+  background-color: #ff4757; /* Matching button color */
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.save-button:hover {
+  background-color: #e63946; /* Slightly darker red */
+}
+
+.pagination-controls {
+  margin: 20px 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+}
+
+.pagination-button {
+  padding: 10px 15px;
+  background-color: #ff4757;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.pagination-button:disabled {
+  background-color: #ffd6d6;
+  color: #999;
+  cursor: not-allowed;
+}
+
+.pagination-button:hover:not(:disabled) {
+  background-color: #e63946;
+}
+/* Container styling for the cards */
+.active-data-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px; /* Space between cards */
+  justify-content: center; /* Center align cards */
+  padding: 20px;
+}
+
+/* Card styling */
+.active-data-card {
+  background-color: #ffffff;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  width: 300px; /* Adjust card width */
+  padding: 20px;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+/* Card hover effect */
+.active-data-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* Headings styling */
+.active-data-card h3 {
+  margin-top: 0;
+  font-size: 1.5rem;
+  color: #333;
+}
+
+/* Paragraph styling */
+.active-data-card p {
+  margin: 5px 0;
+  color: #555;
+  font-size: 1rem;
+}
+
+.active-data-card p strong {
+  color: #000;
+}

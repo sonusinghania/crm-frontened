@@ -900,7 +900,13 @@
 import React, { useState } from "react";
 import "./RequestedData.css";
 
-const RequestedData = ({ messageSent, onActiveDataUpdate }) => {
+const RequestedData = ({
+  messageSent,
+  onActiveDataUpdate,
+  onPotentialDataUpdate,
+  onNonActiveDataUpdate,
+  onPremiumDataUpdate,
+}) => {
   const [currentPage, setCurrentPage] = useState(0);
   const [dataStatus, setDataStatus] = useState(
     messageSent.map(() => "Unmarked") // Initialize status for each card
@@ -957,6 +963,153 @@ const RequestedData = ({ messageSent, onActiveDataUpdate }) => {
 
   //   alert(`Data for ${currentData[index].name} has been saved!`);
   // };
+  // const handleSave = (index) => {
+  //   const savedData = {
+  //     name: currentData[index].name,
+  //     mobileNumber: currentData[index].mobileNumber,
+  //     productOrService: currentData[index].productOrService,
+  //     companyName: currentData[index].companyName,
+  //     sentAt: currentData[index].sentAt,
+  //     status: dataStatus[index],
+  //     comment: comments[index],
+  //   };
+
+  //   if (savedData.status === "Active Data") {
+  //     const existingData = JSON.parse(localStorage.getItem("activeData")) || [];
+  //     const updatedData = [...existingData, savedData];
+
+  //     // Sort updatedData by sentAt before saving
+  //     const sortedData = updatedData.sort(
+  //       (a, b) => new Date(b.sentAt) - new Date(a.sentAt)
+  //     );
+
+  //     localStorage.setItem("activeData", JSON.stringify(sortedData));
+  //     onActiveDataUpdate(sortedData); // Optional: Pass sorted data back to parent
+  //   }
+
+  //   alert(`Data for ${currentData[index].name} has been saved!`);
+  // };
+  // const handleSave = (index) => {
+  //   const savedData = {
+  //     name: currentData[index].name,
+  //     mobileNumber: currentData[index].mobileNumber,
+  //     productOrService: currentData[index].productOrService,
+  //     companyName: currentData[index].companyName,
+  //     sentAt: currentData[index].sentAt,
+  //     status: dataStatus[index],
+  //     comment: comments[index],
+  //   };
+
+  //   let storageKey = "";
+  //   let updateState = null;
+
+  //   if (savedData.status === "Active Data") {
+  //     storageKey = "activeData";
+  //     updateState = onActiveDataUpdate;
+  //   } else if (savedData.status === "Potential Data") {
+  //     storageKey = "potentialData";
+  //     updateState = onPotentialDataUpdate; // Pass from parent component
+  //   } else if (savedData.status === "Non-Active Data") {
+  //     storageKey = "nonActiveData";
+  //     updateState = onNonActiveDataUpdate; // Pass from parent component
+  //   } else if (savedData.status === "Premium Data") {
+  //     storageKey = "premiumData";
+  //     updateState = onPremiumDataUpdate; // Pass from parent component
+  //   }
+
+  //   if (storageKey) {
+  //     // Retrieve existing data, or initialize as an empty array
+  //     const existingData = JSON.parse(localStorage.getItem(storageKey)) || [];
+
+  //     // Check if the entry already exists (by name or unique identifier)
+  //     const filteredData = existingData.filter(
+  //       (item) =>
+  //         item.name !== savedData.name || item.sentAt !== savedData.sentAt
+  //     );
+
+  //     // Add the new data entry
+  //     const updatedData = [...filteredData, savedData];
+
+  //     // Sort updated data by `sentAt` (descending order for most recent first)
+  //     const sortedData = updatedData.sort(
+  //       (a, b) => new Date(b.sentAt) - new Date(a.sentAt)
+  //     );
+
+  //     // Save sorted data to localStorage
+  //     localStorage.setItem(storageKey, JSON.stringify(sortedData));
+
+  //     // Update parent state via callback
+  //     updateState(sortedData);
+  //   }
+
+  //   alert(`Data for ${currentData[index].name} has been saved!`);
+  // };
+  // const handleSave = (index) => {
+  //   const savedData = {
+  //     name: currentData[index].name,
+  //     mobileNumber: currentData[index].mobileNumber,
+  //     productOrService: currentData[index].productOrService,
+  //     companyName: currentData[index].companyName,
+  //     sentAt: currentData[index].sentAt,
+  //     status: dataStatus[index],
+  //     comment: comments[index],
+  //   };
+
+  //   let storageKey = "";
+  //   let updateState = null;
+
+  //   if (savedData.status === "Active Data") {
+  //     storageKey = "activeData";
+  //     updateState = onActiveDataUpdate;
+  //   } else if (savedData.status === "Potential Data") {
+  //     storageKey = "potentialData";
+  //     updateState = onPotentialDataUpdate;
+  //   } else if (savedData.status === "Non-Active Data") {
+  //     storageKey = "nonActiveData";
+  //     updateState = onNonActiveDataUpdate;
+  //   } else if (savedData.status === "Premium Data") {
+  //     storageKey = "premiumData";
+  //     updateState = onPremiumDataUpdate;
+  //   }
+
+  //   if (storageKey) {
+  //     // Retrieve existing data, or initialize as an empty array
+  //     const existingData = JSON.parse(localStorage.getItem(storageKey)) || [];
+
+  //     // Check if the entry already exists (by name and sentAt, assuming these are unique)
+  //     const existingEntryIndex = existingData.findIndex(
+  //       (item) =>
+  //         item.name === savedData.name && item.sentAt === savedData.sentAt
+  //     );
+
+  //     if (existingEntryIndex !== -1) {
+  //       // If the entry already exists, append the new comment to the existing comments
+  //       const existingEntry = existingData[existingEntryIndex];
+  //       existingEntry.comment = existingEntry.comment
+  //         ? `${existingEntry.comment}\n${savedData.comment}` // Concatenate new comment
+  //         : savedData.comment; // If no previous comment, just set the new one
+
+  //       // Update the entry with the new comment and status
+  //       existingData[existingEntryIndex] = existingEntry;
+  //     } else {
+  //       // If the entry doesn't exist, just add the new entry with comment
+  //       existingData.push(savedData);
+  //     }
+
+  //     // Sort updated data by `sentAt` (descending order for most recent first)
+  //     const sortedData = existingData.sort(
+  //       (a, b) => new Date(b.sentAt) - new Date(a.sentAt)
+  //     );
+
+  //     // Save sorted data to localStorage
+  //     localStorage.setItem(storageKey, JSON.stringify(sortedData));
+
+  //     // Update parent state via callback
+  //     updateState(sortedData);
+  //   }
+
+  //   alert(`Data for ${currentData[index].name} has been saved!`);
+  // };
   const handleSave = (index) => {
     const savedData = {
       name: currentData[index].name,
@@ -965,20 +1118,51 @@ const RequestedData = ({ messageSent, onActiveDataUpdate }) => {
       companyName: currentData[index].companyName,
       sentAt: currentData[index].sentAt,
       status: dataStatus[index],
-      comment: comments[index],
+      comment: comments[index], // Updated comment passed from the parent component
     };
 
-    if (savedData.status === "Active Data") {
-      const existingData = JSON.parse(localStorage.getItem("activeData")) || [];
-      const updatedData = [...existingData, savedData];
+    let storageKey = "";
+    let updateState = null;
 
-      // Sort updatedData by sentAt before saving
-      const sortedData = updatedData.sort(
+    if (savedData.status === "Active Data") {
+      storageKey = "activeData";
+      updateState = onActiveDataUpdate;
+    } else if (savedData.status === "Potential Data") {
+      storageKey = "potentialData";
+      updateState = onPotentialDataUpdate;
+    } else if (savedData.status === "Non-Active Data") {
+      storageKey = "nonActiveData";
+      updateState = onNonActiveDataUpdate;
+    } else if (savedData.status === "Premium Data") {
+      storageKey = "premiumData";
+      updateState = onPremiumDataUpdate;
+    }
+
+    if (storageKey) {
+      const existingData = JSON.parse(localStorage.getItem(storageKey)) || [];
+
+      const existingEntryIndex = existingData.findIndex(
+        (item) =>
+          item.name === savedData.name && item.sentAt === savedData.sentAt
+      );
+
+      if (existingEntryIndex !== -1) {
+        const existingEntry = existingData[existingEntryIndex];
+        existingEntry.comment = existingEntry.comment
+          ? `${existingEntry.comment}\n${savedData.comment}` // Append new comment
+          : savedData.comment;
+
+        existingData[existingEntryIndex] = existingEntry;
+      } else {
+        existingData.push(savedData);
+      }
+
+      const sortedData = existingData.sort(
         (a, b) => new Date(b.sentAt) - new Date(a.sentAt)
       );
 
-      localStorage.setItem("activeData", JSON.stringify(sortedData));
-      onActiveDataUpdate(sortedData); // Optional: Pass sorted data back to parent
+      localStorage.setItem(storageKey, JSON.stringify(sortedData));
+      updateState(sortedData);
     }
 
     alert(`Data for ${currentData[index].name} has been saved!`);
@@ -1020,6 +1204,9 @@ const RequestedData = ({ messageSent, onActiveDataUpdate }) => {
                 <strong>Product/Service:</strong> {message.productOrService}
               </p>
               <p>
+                <strong>City:</strong> {message.cityname}
+              </p>
+              <p>
                 <strong>Company:</strong> {message.companyName}
               </p>
               <p>
@@ -1036,6 +1223,7 @@ const RequestedData = ({ messageSent, onActiveDataUpdate }) => {
                   <option value="Unmarked">Unmarked</option>
                   <option value="Active Data">Active Data</option>
                   <option value="Non-Active Data">Non-Active Data</option>
+                  <option value="Potential Data">Potential Data</option>
                   <option value="Premium Data">Premium Data</option>
                 </select>
 

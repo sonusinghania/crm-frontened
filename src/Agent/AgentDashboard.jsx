@@ -540,6 +540,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import "../Admin/AdminDashboard.css";
 import RequestedData from "./SendMessageData"; // Import the child component
+import TotalDataComponent from "./TotalData";
 
 const AgentDashboard = () => {
   const [agentData, setAgentData] = useState(null);
@@ -547,6 +548,48 @@ const AgentDashboard = () => {
   const [message, setMessage] = useState("");
   const [activeSection, setActiveSection] = useState("Dashboard");
   const [activeData, setActiveData] = useState([]); // State for storing active data
+  const [potentialData, setPotentialData] = useState([]); // For Potential Data
+  const [nonActiveData, setNonActiveData] = useState([]);
+  const [premiumData, setPremiumData] = useState([]);
+
+  const [formData, setFormData] = useState({
+    name: "",
+    mobileNumber: "",
+    companyName: "",
+    cityname: "",
+    productOrService: "",
+    sentAt: new Date().toISOString().slice(0, 16), // Default to current date and time
+  });
+
+  const handleInputChange = (field, value) => {
+    setFormData((prevData) => ({
+      ...prevData,
+      [field]: value,
+    }));
+  };
+
+  // const handleSubmit = async () => {
+  //   try {
+  //     const response = await axios.post(
+  //       "http://localhost:5000/api/agents/getLoggedInUserData", // Replace with your API endpoint
+  //       formData
+  //     );
+  //     console.log("Data submitted successfully:", response.data);
+  //     alert("Data added successfully!");
+  //     // Clear form
+  //     setFormData({
+  //       name: "",
+  //       mobileNumber: "",
+  //       companyName: "",
+  //       cityname: "",
+  //       productOrService: "",
+  //       sentAt: new Date().toISOString().slice(0, 16),
+  //     });
+  //   } catch (error) {
+  //     console.error("Error submitting data:", error);
+  //     alert("Failed to submit data.");
+  //   }
+  // };
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -576,9 +619,34 @@ const AgentDashboard = () => {
       JSON.parse(localStorage.getItem("activeData")) || [];
     setActiveData(savedActiveData);
   }, []);
+  useEffect(() => {
+    // Retrieve saved data from localStorage for all categories
+    const savedNonActiveData =
+      JSON.parse(localStorage.getItem("nonActiveData")) || [];
+    const savedPremiumData =
+      JSON.parse(localStorage.getItem("premiumData")) || [];
+    const savedPotentialData =
+      JSON.parse(localStorage.getItem("potentialData")) || [];
+
+    // Update state variables
+    setNonActiveData(savedNonActiveData);
+    setPremiumData(savedPremiumData);
+    setPotentialData(savedPotentialData); // Ensure setPotentialData is declared in your state
+  }, []);
 
   const handleActiveDataUpdate = (newActiveData) => {
     setActiveData(newActiveData);
+  };
+  // Handle updates to Potential Data
+  const handlePotentialDataUpdate = (newPotentialData) => {
+    setPotentialData(newPotentialData);
+  };
+  const handleNonActiveDataUpdate = (newNonActiveData) => {
+    setNonActiveData(newNonActiveData);
+  };
+
+  const handlePremiumDataUpdate = (newPremiumData) => {
+    setPremiumData(newPremiumData);
   };
 
   const renderSection = () => {
@@ -588,6 +656,9 @@ const AgentDashboard = () => {
           <RequestedData
             messageSent={agentData.messagesSent}
             onActiveDataUpdate={handleActiveDataUpdate}
+            onPotentialDataUpdate={handlePotentialDataUpdate}
+            onNonActiveDataUpdate={handleNonActiveDataUpdate}
+            onPremiumDataUpdate={handlePremiumDataUpdate}
           />
         );
       case "Active Data":
@@ -625,16 +696,241 @@ const AgentDashboard = () => {
           </div>
         );
       case "Add Data":
-        return <h1>Add Data</h1>;
+        return (
+          <>
+            <h1
+              style={{
+                textAlign: "center",
+              }}
+            >
+              Add Data
+            </h1>
+            <form
+              className="add-data-form"
+              onSubmit={(e) => {
+                e.preventDefault();
+                // handleSubmit();
+              }}
+            >
+              <div className="form-row">
+                <div className="form-group">
+                  <label htmlFor="name" className="form-label">
+                    Name:
+                  </label>
+                  <input
+                    type="text"
+                    id="name"
+                    placeholder="Enter Name"
+                    className="form-input"
+                    value={formData.name}
+                    onChange={(e) => handleInputChange("name", e.target.value)}
+                    required
+                  />
+                </div>
+                <div className="form-group">
+                  <label htmlFor="mobileNumber" className="form-label">
+                    Mobile Number:
+                  </label>
+                  <input
+                    type="text"
+                    placeholder="Enter Mobile Number"
+                    id="mobileNumber"
+                    className="form-input"
+                    value={formData.mobileNumber}
+                    onChange={(e) =>
+                      handleInputChange("mobileNumber", e.target.value)
+                    }
+                    required
+                  />
+                </div>
+              </div>
+
+              <div className="form-row">
+                <div className="form-group">
+                  <label htmlFor="companyName" className="form-label">
+                    Company Name:
+                  </label>
+                  <input
+                    type="text"
+                    id="companyName"
+                    placeholder="Enter Company Name"
+                    className="form-input"
+                    value={formData.companyName}
+                    onChange={(e) =>
+                      handleInputChange("companyName", e.target.value)
+                    }
+                    required
+                  />
+                </div>
+                <div className="form-group">
+                  <label htmlFor="cityname" className="form-label">
+                    City Name:
+                  </label>
+                  <input
+                    type="text"
+                    id="cityname"
+                    className="form-input"
+                    placeholder="Enter City"
+                    value={formData.cityname}
+                    onChange={(e) =>
+                      handleInputChange("cityname", e.target.value)
+                    }
+                    required
+                  />
+                </div>
+              </div>
+
+              <div className="form-row">
+                <div className="form-group">
+                  <label htmlFor="productOrService" className="form-label">
+                    Product or Service:
+                  </label>
+                  <input
+                    type="text"
+                    id="productOrService"
+                    placeholder="Enter Products And Services"
+                    className="form-input"
+                    value={formData.productOrService}
+                    onChange={(e) =>
+                      handleInputChange("productOrService", e.target.value)
+                    }
+                    required
+                  />
+                </div>
+                <div className="form-group">
+                  <label htmlFor="sentAt" className="form-label">
+                    Sent At:
+                  </label>
+                  <input
+                    type="datetime-local"
+                    id="sentAt"
+                    className="form-input"
+                    value={formData.sentAt}
+                    onChange={(e) =>
+                      handleInputChange("sentAt", e.target.value)
+                    }
+                    required
+                  />
+                </div>
+              </div>
+
+              <button type="submit" className="form-button">
+                Submit
+              </button>
+            </form>
+          </>
+        );
+
       case "Total Data":
-        return <h1>Total Data</h1>;
+        return (
+          <TotalDataComponent
+            messageSent={agentData.messagesSent}
+            onActiveDataUpdate={handleActiveDataUpdate}
+          />
+        );
       case "Potential Data":
-        return <h1>Potential Data</h1>;
+        return (
+          <div>
+            <h1>Potential Data</h1>
+            <div className="table-container">
+              <table className="data-table">
+                <thead>
+                  <tr>
+                    <th>Sr. No.</th>
+                    <th>Name</th>
+                    <th>Mobile</th>
+                    <th>Product/Service</th>
+                    <th>Company</th>
+                    <th>Sent At</th>
+                    <th>Comment</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {potentialData.map((data, index) => (
+                    <tr key={index}>
+                      <td>{index + 1}</td>
+                      <td>{data.name}</td>
+                      <td>{data.mobileNumber}</td>
+                      <td>{data.productOrService}</td>
+                      <td>{data.companyName}</td>
+                      <td>{new Date(data.sentAt).toLocaleString()}</td>
+                      <td>{data.comment}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        );
 
       case "Non-Active Data":
-        return <h1>Non-Active Data</h1>;
+        return (
+          <div>
+            <h1>Non-Active Data</h1>
+            <div className="table-container">
+              <table className="data-table">
+                <thead>
+                  <tr>
+                    <th>Sr. No.</th>
+                    <th>Name</th>
+                    <th>Mobile</th>
+                    <th>Product/Service</th>
+                    <th>Company</th>
+                    <th>Sent At</th>
+                    <th>Comment</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {nonActiveData.map((data, index) => (
+                    <tr key={index}>
+                      <td>{index + 1}</td>
+                      <td>{data.name}</td>
+                      <td>{data.mobileNumber}</td>
+                      <td>{data.productOrService}</td>
+                      <td>{data.companyName}</td>
+                      <td>{new Date(data.sentAt).toLocaleString()}</td>
+                      <td>{data.comment}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        );
       case "Premium Data":
-        return <h1>Premium Data</h1>;
+        return (
+          <div>
+            <h1>Premium Data</h1>
+            <div className="table-container">
+              <table className="data-table">
+                <thead>
+                  <tr>
+                    <th>Sr. No.</th>
+                    <th>Name</th>
+                    <th>Mobile</th>
+                    <th>Product/Service</th>
+                    <th>Company</th>
+                    <th>Sent At</th>
+                    <th>Comment</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {premiumData.map((data, index) => (
+                    <tr key={index}>
+                      <td>{index + 1}</td>
+                      <td>{data.name}</td>
+                      <td>{data.mobileNumber}</td>
+                      <td>{data.productOrService}</td>
+                      <td>{data.companyName}</td>
+                      <td>{new Date(data.sentAt).toLocaleString()}</td>
+                      <td>{data.comment}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        );
 
       default:
         return (
@@ -688,7 +984,6 @@ const AgentDashboard = () => {
           <li onClick={() => setActiveSection("Total Data")}>Total Data</li>
 
           <li onClick={() => setActiveSection("Potential Data")}>
-            {" "}
             Potential Data
           </li>
 
